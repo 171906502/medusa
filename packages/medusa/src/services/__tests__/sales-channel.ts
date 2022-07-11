@@ -1,9 +1,10 @@
 import { IdMap, MockManager, MockRepository } from "medusa-test-utils"
 import SalesChannelService from "../sales-channel"
 import { EventBusServiceMock } from "../__mocks__/event-bus"
-import { EventBusService, StoreService } from "../index"
+import { EventBusService, ProductService, StoreService } from "../index"
 import { FindConditions, FindOneOptions } from "typeorm"
 import { SalesChannel } from "../../models"
+import { ProductServiceMock } from "../__mocks__/product";
 import { store, StoreServiceMock } from "../__mocks__/store";
 
 describe("SalesChannelService", () => {
@@ -97,7 +98,8 @@ describe("SalesChannelService", () => {
       manager: MockManager,
       eventBusService: EventBusServiceMock as unknown as EventBusService,
       salesChannelRepository: salesChannelRepositoryMock,
-      storeService: StoreServiceMock as unknown as StoreService
+      storeService: StoreServiceMock as unknown as StoreService,
+      productService: ProductServiceMock as unknown as ProductService,
     })
 
     beforeEach(() => {
@@ -127,7 +129,8 @@ describe("SalesChannelService", () => {
       manager: MockManager,
       eventBusService: EventBusServiceMock as unknown as EventBusService,
       salesChannelRepository: salesChannelRepositoryMock,
-      storeService: StoreServiceMock as unknown as StoreService
+      storeService: StoreServiceMock as unknown as StoreService,
+      productService: ProductServiceMock as unknown as ProductService,
     })
 
     const update = {
@@ -162,7 +165,8 @@ describe("SalesChannelService", () => {
       manager: MockManager,
       eventBusService: EventBusServiceMock as unknown as EventBusService,
       salesChannelRepository: salesChannelRepositoryMock,
-      storeService: StoreServiceMock as unknown as StoreService
+      storeService: StoreServiceMock as unknown as StoreService,
+      productService: ProductServiceMock as unknown as ProductService,
     })
 
     beforeEach(() => {
@@ -191,6 +195,23 @@ describe("SalesChannelService", () => {
           SalesChannelService.Events.DELETED,
           { "id": IdMap.getId("sales_channel_1") }
         )
+    })
+  })
+
+  describe("Add products", () => {
+    const salesChannelService = new SalesChannelService({
+      manager: MockManager,
+      eventBusService: EventBusServiceMock as unknown as EventBusService,
+      salesChannelRepository: salesChannelRepositoryMock,
+      storeService: StoreServiceMock as unknown as StoreService,
+      productService: ProductServiceMock as unknown as ProductService,
+    })
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('should add a list of product to a sales channel', async () => {
     })
   })
 })

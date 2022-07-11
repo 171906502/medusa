@@ -6,6 +6,7 @@ import { SalesChannel } from "../../../../models"
 import middlewares, { transformBody } from "../../../middlewares"
 import { AdminPostSalesChannelsSalesChannelReq } from "./update-sales-channel"
 import { AdminPostSalesChannelsReq } from "./create-sales-channel"
+import { AdminPostSalesChannelsSalesChannelProductsBatchReq } from "./add-product-batch"
 
 const route = Router()
 
@@ -19,8 +20,18 @@ export default (app) => {
     "/",
     middlewares.wrap(require("./get-sales-channel").default)
   )
+  route.post(
+    "/",
+    transformBody(AdminPostSalesChannelsSalesChannelReq),
+    middlewares.wrap(require("./update-sales-channel").default)
+  )
   salesChannelRouter.delete(
     "/",
+    middlewares.wrap(require("./delete-sales-channel").default)
+  )
+  salesChannelRouter.post(
+    "/products/batch",
+    transformBody(AdminPostSalesChannelsSalesChannelProductsBatchReq),
     middlewares.wrap(require("./delete-sales-channel").default)
   )
 
@@ -31,14 +42,6 @@ export default (app) => {
     transformBody(AdminPostSalesChannelsReq),
     middlewares.wrap(require("./create-sales-channel").default)
   )
-
-  route.post(
-    "/:id",
-    transformBody(AdminPostSalesChannelsSalesChannelReq),
-    middlewares.wrap(require("./update-sales-channel").default)
-  )
-
-
 
   return app
 }

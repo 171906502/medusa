@@ -28,19 +28,17 @@ export const SalesChannelServiceMock = {
     return Promise.resolve()
   }),
 
-<<<<<<< HEAD
   createDefault: jest.fn().mockImplementation(() => {
     return Promise.resolve({
       name: "sales channel 1 name",
       description: "sales channel 1 description",
       is_disabled: false,
     })
-  })
-=======
+  }),
+
   addProducts: jest.fn().mockImplementation((id, productIds) => {
     return Promise.resolve()
   }),
->>>>>>> 8a97f6c5e... feat(medusa): API end point
 }
 
 const mock = jest.fn().mockImplementation(() => {

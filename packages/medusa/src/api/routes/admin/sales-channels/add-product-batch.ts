@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import { Product } from "../../../../models"
 import { SalesChannelService } from "../../../../services"
 import { IsArray, ValidateNested } from "class-validator"
 import { Type } from "class-transformer"
@@ -13,7 +12,7 @@ import { ProductBatchSalesChannel } from "../../../../types/sales-channels"
  * x-authenticated: true
  * parameters:
  *   - (path) id=* {string} The id of the Sales channel.
- *   - (body) products=* {AdminProductsBatchPartialProduct} The product ids that must be assigned to the sales channel.
+ *   - (body) product_ids=* {ProductBatchSalesChannel} The product ids that must be assigned to the sales channel.
  * tags:
  *   - Sales Channel
  * responses:

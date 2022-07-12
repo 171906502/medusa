@@ -557,7 +557,7 @@ describe("sales channels", () => {
 
       let attachedProduct = await dbConnection.manager.findOne(Product, {
         where: { id: product.id },
-        relations: ["tags"]
+        relations: ["sales_channels"]
       })
 
       expect(attachedProduct.sales_channels.length).toBe(1)

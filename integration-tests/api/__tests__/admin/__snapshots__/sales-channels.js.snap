@@ -77,3 +77,15 @@ Object {
   "updated_at": Any<String>,
 }
 `;
+
+exports[`sales channels POST /admin/sales-channels/:id/products/batch should add products to a sales channel 1`] = `
+Object {
+  "created_at": 2022-07-12T09:41:44.403Z,
+  "deleted_at": null,
+  "description": "test description",
+  "id": "simple-id-675.0175908829091",
+  "is_disabled": false,
+  "name": "test name",
+  "updated_at": 2022-07-12T09:41:44.403Z,
+}
+`;

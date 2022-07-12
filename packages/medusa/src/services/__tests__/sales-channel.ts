@@ -17,34 +17,29 @@ describe("SalesChannelService", () => {
   const salesChannelRepositoryMock = {
     ...MockRepository({
       findOne: jest
-      .fn()
-      .mockImplementation(
-        (queryOrId: string | FindOneOptions<SalesChannel>): any => {
-          return Promise.resolve({
-            id:
-              typeof queryOrId === "string"
-                ? queryOrId
-                : (queryOrId?.where as FindConditions<SalesChannel>)?.id ??
+        .fn()
+        .mockImplementation(
+          (queryOrId: string | FindOneOptions<SalesChannel>): any => {
+            return Promise.resolve({
+              id:
+                typeof queryOrId === "string"
+                  ? queryOrId
+                  : (queryOrId?.where as FindConditions<SalesChannel>)?.id ??
                   IdMap.getId("sc_adjhlukiaeswhfae"),
-            ...salesChannelData,
-          })
-        }
-      ),
-<<<<<<< HEAD
-    create: jest.fn().mockImplementation((data) => data),
-    save: (salesChannel) => Promise.resolve({
-      id: IdMap.getId("sales_channel_1"),
-      ...salesChannel
-    }),
-    softRemove: jest.fn().mockImplementation((id: string): any => {
-=======
-      save: (salesChannel) => Promise.resolve(salesChannel),
+              ...salesChannelData,
+            })
+          }
+        ),
+      create: jest.fn().mockImplementation((data) => data),
+      save: (salesChannel) => Promise.resolve({
+        id: IdMap.getId("sales_channel_1"),
+        ...salesChannel
+      }),
       softRemove: jest.fn().mockImplementation((id: string): any => {
         return Promise.resolve()
       }),
     }),
     addProducts: jest.fn().mockImplementation((id: string, productIds: string[]): any => {
->>>>>>> 8a97f6c5e... feat(medusa): API end point
       return Promise.resolve()
     }),
   }
@@ -54,7 +49,8 @@ describe("SalesChannelService", () => {
       manager: MockManager,
       eventBusService: EventBusServiceMock as unknown as EventBusService,
       salesChannelRepository: salesChannelRepositoryMock,
-      storeService: StoreServiceMock as unknown as StoreService
+      storeService: StoreServiceMock as unknown as StoreService,
+      productService: ProductServiceMock as unknown as ProductService,
     })
 
     beforeEach(() => {
@@ -77,6 +73,7 @@ describe("SalesChannelService", () => {
         manager: MockManager,
         eventBusService: EventBusServiceMock as unknown as EventBusService,
         salesChannelRepository: salesChannelRepositoryMock,
+        productService: ProductServiceMock as unknown as ProductService,
         storeService: {
           ...StoreServiceMock,
           retrieve: jest.fn().mockImplementation(() => {

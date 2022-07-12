@@ -3,7 +3,7 @@ import { renderHook } from "@testing-library/react-hooks"
 import {
   useAdminDeleteSalesChannel,
   useAdminCreateSalesChannel,
-  useAdminUpdateSalesChannel,
+  useAdminUpdateSalesChannel, useAdminAddProductsToSalesChannel,
 } from "../../../../src"
 import { fixtures } from "../../../../mocks/data"
 import { createWrapper } from "../../../utils"
@@ -72,6 +72,32 @@ describe("useAdminDeleteSalesChannel hook", () => {
     )
 
     result.current.mutate()
+
+    await waitFor(() => result.current.isSuccess)
+
+    expect(result.current.data).toEqual(
+      expect.objectContaining({
+        id,
+        object: "sales-channel",
+        deleted: true,
+      })
+    )
+  })
+})
+
+describe("useAdminAddProductsToSalesChannel hook", () => {
+  test("add products to a sales channel", async () => {
+    const id = fixtures.get("sales_channel").id
+    const productId = fixtures.get("product").id
+
+    const { result, waitFor } = renderHook(
+      () => useAdminAddProductsToSalesChannel(id),
+      { wrapper: createWrapper() }
+    )
+
+    result.current.mutate({ product_ids: [
+      { id: productId }
+    ]})
 
     await waitFor(() => result.current.isSuccess)
 

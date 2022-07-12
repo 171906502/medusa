@@ -14,8 +14,9 @@ describe("SalesChannelService", () => {
     is_disabled: false,
   }
 
-  const salesChannelRepositoryMock = MockRepository({
-    findOne: jest
+  const salesChannelRepositoryMock = {
+    ...MockRepository({
+      findOne: jest
       .fn()
       .mockImplementation(
         (queryOrId: string | FindOneOptions<SalesChannel>): any => {
@@ -29,15 +30,24 @@ describe("SalesChannelService", () => {
           })
         }
       ),
+<<<<<<< HEAD
     create: jest.fn().mockImplementation((data) => data),
     save: (salesChannel) => Promise.resolve({
       id: IdMap.getId("sales_channel_1"),
       ...salesChannel
     }),
     softRemove: jest.fn().mockImplementation((id: string): any => {
+=======
+      save: (salesChannel) => Promise.resolve(salesChannel),
+      softRemove: jest.fn().mockImplementation((id: string): any => {
+        return Promise.resolve()
+      }),
+    }),
+    addProducts: jest.fn().mockImplementation((id: string, productIds: string[]): any => {
+>>>>>>> 8a97f6c5e... feat(medusa): API end point
       return Promise.resolve()
     }),
-  })
+  }
 
   describe("create default", async () => {
     const salesChannelService = new SalesChannelService({
@@ -212,6 +222,21 @@ describe("SalesChannelService", () => {
     })
 
     it('should add a list of product to a sales channel', async () => {
+      const salesChannel = await salesChannelService.addProducts(
+        IdMap.getId("sales_channel_1"),
+        [IdMap.getId("sales_channel_1_product_1")]
+      )
+
+      expect(salesChannelRepositoryMock.addProducts).toHaveBeenCalledTimes(1)
+      expect(salesChannelRepositoryMock.addProducts).toHaveBeenCalledWith(
+        IdMap.getId("sales_channel_1"),
+        [IdMap.getId("sales_channel_1_product_1")]
+      )
+      expect(salesChannel).toBeTruthy()
+      expect(salesChannel).toEqual({
+        id: IdMap.getId("sales_channel_1"),
+        ...salesChannelData,
+      })
     })
   })
 })

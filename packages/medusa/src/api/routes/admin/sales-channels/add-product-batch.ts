@@ -37,7 +37,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     req.validatedBody as AdminPostSalesChannelsSalesChannelProductsBatchReq
   const salesChannel = await salesChannelService.addProducts(
     id,
-    validatedBody.products_ids.map((p) => p.id)
+    validatedBody.product_ids.map((p) => p.id)
   )
   res.status(200).json({ sales_channel: salesChannel })
 }
@@ -46,5 +46,5 @@ export class AdminPostSalesChannelsSalesChannelProductsBatchReq {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ProductBatchSalesChannel)
-  products_ids: ProductBatchSalesChannel[]
+  product_ids: ProductBatchSalesChannel[]
 }

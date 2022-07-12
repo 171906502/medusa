@@ -20,7 +20,7 @@ export default (app) => {
     "/",
     middlewares.wrap(require("./get-sales-channel").default)
   )
-  route.post(
+  salesChannelRouter.post(
     "/",
     transformBody(AdminPostSalesChannelsSalesChannelReq),
     middlewares.wrap(require("./update-sales-channel").default)
@@ -32,7 +32,7 @@ export default (app) => {
   salesChannelRouter.post(
     "/products/batch",
     transformBody(AdminPostSalesChannelsSalesChannelProductsBatchReq),
-    middlewares.wrap(require("./delete-sales-channel").default)
+    middlewares.wrap(require("./add-product-batch").default)
   )
 
   route.get("/", (req, res) => {})
@@ -61,4 +61,4 @@ export * from "./create-sales-channel"
 // export * from './'
 // export * from './'
 export * from "./update-sales-channel"
-// export * from './'
+export * from "./add-product-batch"

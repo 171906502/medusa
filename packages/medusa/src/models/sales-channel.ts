@@ -1,4 +1,4 @@
-\import { BeforeInsert, Column } from "typeorm"
+import { BeforeInsert, Column } from "typeorm"
 
 import { SoftDeletableEntity } from "../interfaces"
 import { FeatureFlagEntity } from "../utils/feature-flag-decorators"

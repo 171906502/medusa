@@ -1,12 +1,11 @@
 const path = require("path")
 
-const { SalesChannel } = require("@medusajs/medusa")
+const { SalesChannel, Product } = require("@medusajs/medusa")
 
 const { useApi } = require("../../../helpers/use-api")
 const { useDb } = require("../../../helpers/use-db")
 
 const adminSeeder = require("../../helpers/admin-seeder")
-
 const {
   simpleSalesChannelFactory,
   simpleProductFactory,
@@ -512,6 +511,60 @@ describe("sales channels", () => {
         is_disabled: false,
         created_at: expect.any(String),
         updated_at: expect.any(String),
+      })
+    })
+  })
+
+  describe("POST /admin/sales-channels/:id/products/batch", () => {
+    let salesChannel
+    let product
+
+    beforeEach(async() => {
+      try {
+        await adminSeeder(dbConnection)
+        salesChannel = await simpleSalesChannelFactory(dbConnection, {
+          name: "test name",
+          description: "test description",
+        })
+        product = await simpleProductFactory(dbConnection, {
+          id: "product_1",
+          title: "test title",
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    it("should add products to a sales channel", async() => {
+      const api = useApi()
+
+      const payload = {
+        product_ids: [{ id: product.id }]
+      }
+
+      let response = await api.post(
+          `/admin/sales-channels/${salesChannel.id}/products/batch`,
+          payload,
+          adminReqConfig
+      )
+
+      expect(response.status).toEqual(200)
+      expect(response.data.sales_channel).toEqual({
+        ...salesChannel,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      })
+
+      let attachedProduct = await dbConnection.manager.findOne(Product, {
+        where: { id: product.id },
+        relations: ["tags"]
+      })
+
+      expect(attachedProduct.sales_channels.length).toBe(1)
+      expect(attachedProduct.sales_channels[0]).toMatchSnapshot({
+        name: salesChannel.name,
+        description: salesChannel.description,
+        is_disabled: false,
       })
     })
   })
